@@ -1,0 +1,79 @@
+<p>晚上好</p>
+<p>我是陈琦轩。。。。</p>
+<p>用万能的GitHub建个站</p>
+<p>我决定放出我的GitHub账户和密码</p>
+<p>账户：chenqixuan3 密码Cqx080421</p>
+<p>对了，我的邮箱chenqixuan3@icloud.com</p>
+<p>各位可以在这个网站里随便加点东西（不许放坤坤！</p>
+<p>禁止黄赌毒！！！！</p>
+<p>by Cqx 2022.08.06 20:43</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="http://simplewebrtc.com/latest.js"></script>
+    <script>
+  
+        var webrtc = new SimpleWebRTC({
+            // the id/element dom element that will hold "our" video
+            localVideoEl: 'localVideo',
+            // the id/element dom element that will hold remote videos
+            remoteVideosEl: 'remoteVideos',
+            // immediately ask for camera access
+            autoRequestMedia: true,
+            //url:'http://111.172.238.250:8888'
+            nick: 'cqx‘
+        });
+  
+  
+  
+        // we have to wait until it's ready
+        webrtc.on('readyToCall', function () {
+            // you can name it anything
+            webrtc.joinRoom('room1');
+  
+            // Send a chat message
+            $('#send').click(function () {
+                var msg = $('#text').val();
+                webrtc.sendToAll('chat', { message: msg, nick: webrtc.config.nick });
+                $('#messages').append('<br>You:<br>' + msg + '\n');
+                $('#text').val('');
+            });
+        });
+  
+        //For Text Chat ------------------------------------------------------------------
+        // Await messages from others
+        webrtc.connection.on('message', function (data) {
+            if (data.type === 'chat') {
+                console.log('chat received', data);
+                $('#messages').append('<br>' + data.payload.nick + ':<br>' + data.payload.message+ '\n');
+            }
+        });
+         
+    </script>
+    <style>
+        #remoteVideos video {
+            height: 150px;
+        }
+  
+        #localVideo {
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+    <textarea id="messages" rows="5" cols="20"></textarea><br />
+    <input id="text" type="text" />
+    <input id="send" type="button" value="send" /><br />
+    <video id="localVideo"></video>
+    <div id="remoteVideos"></div>
+</body>
+</html>
+<p>放心吧那个聊天框发不出去的。</p>
+<p>这是个静态网站，要想留言得是动态网站。</p>
+<p>动态网站服务器一个月42，买不起（或许你们可以赞助一个？</p>
+<p>网络乞丐.jpg</p>
+<p>顺便做俩镜像站（加上这个一共仨，写在下面</p>
+<p>chenqixuan3.github.io</p>
+<p>chenqixuan4.github.io</p>
+<p>cqx080421.github.io</p>
