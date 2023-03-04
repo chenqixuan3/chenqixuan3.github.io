@@ -1,0 +1,80 @@
+import java.util.Scanner;
+
+public class Minesweeper {
+    public static void main(String[] args) {
+        final int row = 10;
+        final int col = 10;
+        final int mineNum = 10;
+        int[][] board = new int[row][col]; // 0-8表示周围雷数，-1表示雷，-2表示未翻开
+        boolean[][] opened = new boolean[row][col]; // 记录每个格子是否已经翻开
+        int remain = row * col - mineNum; // 剩余未翻开的格子数
+        int x, y; // 翻开的格子的坐标
+        boolean gameOver = false;
+
+        // 随机生成雷区
+        java.util.Random rand = new java.util.Random();
+        for (int i = 0; i < mineNum; i++) {
+            int r, c;
+            do {
+                r = rand.nextInt(row);
+                c = rand.nextInt(col);
+            } while (board[r][c] == -1);
+            board[r][c] = -1;
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dy = -1; dy <= 1; dy++) {
+                    int nr = r + dx;
+                    int nc = c + dy;
+                    if (nr >= 0 && nr < row && nc >= 0 && nc < col && board[nr][nc] != -1) {
+                        board[nr][nc]++;
+                    }
+                }
+            }
+        }
+
+        // 游戏主循环
+        Scanner scanner = new Scanner(System.in);
+        while (!gameOver) {
+            // 显示当前雷区
+            System.out.print("  ");
+            for (int c = 0; c < col; c++) {
+                System.out.print(c + " ");
+            }
+            System.out.println();
+            for (int r = 0; r < row; r++) {
+                System.out.print(r + " ");
+                for (int c = 0; c < col; c++) {
+                    if (opened[r][c]) {
+                        if (board[r][c] == -1) {
+                            System.out.print("* ");
+                        } else {
+                            System.out.print(board[r][c] + " ");
+                        }
+                    } else {
+                        System.out.print("- ");
+                    }
+                }
+                System.out.println();
+            }
+
+            // 接收玩家输入
+            do {
+                System.out.print("请输入要翻开的格子的坐标（行 列）：");
+                x = scanner.nextInt();
+                y = scanner.nextInt();
+            } while (x < 0 || x >= row || y < 0 || y >= col || opened[x][y]);
+
+            // 翻开格子
+            opened[x][y] = true;
+            if (board[x][y] == -1) {
+                gameOver = true;
+                System.out.println("你输了！");
+            } else {
+                remain--;
+                if (remain == 0) {
+                    gameOver = true;
+                    System.out.println("你赢了！");
+                }
+            }
+        }
+    }
+}
